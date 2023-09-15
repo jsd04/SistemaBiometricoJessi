@@ -81,9 +81,18 @@
                       <label for="id_dato">Dato:</label>
                       <input type="text" name="dato" class="form-control" id="id_dato"/> 
 
-                      <label for="id_usuario">Usuario</label>
-                      <input type="text" id="id_usuario" value="{{inquilino.id_usuario}}"readonly/> 
-                          
+                      <label for="id_usuario">Usuario:</label>
+                      <input type="text" id="id_usuario" name="id_usuario" class="form-control" 
+                        value="Id {{inquilino.id_usuario}} -> {{inquilino.id_usuario}} {{inquilino.nombre}} {{inquilino.ap_paterno}} {{inquilino.ap_materno}}" 
+                        />
+                      <label for="id_tipo_sesion">Tipo de sesion:</label>
+                      <input type="text" id="id_tipo_sesion" name="id_tipo_sesion" class="form-control" 
+                        value=1 readonly>
+                      <label for="id_tipo_sesion">Tipo de sesion:</label>
+                        <select class="form-control" type="text" id="id_tipo_sesion" name="id_tipo_sesion" disabled>
+                        <option value="1 " selected="selected">FACIAL</option>
+                        <option value="2 " disabled >voz</option>
+                      </select readonly>
                         <!-- <select class="form-control" id="id_usuario">
                           <option value="">--------</option>
                           {% for inquilino in inquilinos %}
@@ -94,7 +103,7 @@
                         <h5></h5> 
                         
                         <h5></h5>
-                        <!-- {{form}} -->
+                        {{form}}
                         
                      <script language="JavaScript">
                        Webcam.set({

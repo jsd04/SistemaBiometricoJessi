@@ -40,7 +40,10 @@ class SesionForm3(ModelForm):
          super(SesionForm3,self).__init__(*args,**kwargs)
          
          self.fields['id_usuario'].widget.attrs['class']= 'form-control' 
+         self.fields['id_usuario'].label= 'Usuario'
          self.fields['dato'].widget.attrs['class']='form-control' 
          self.fields['id_tipo_sesion'].widget.value='1'
+         self.fields['id_tipo_sesion'].widget.attrs['class']='form-control' 
+         self.fields['id_tipo_sesion'].label= 'Tipo Session'
 
 
