@@ -1,0 +1,178 @@
+if (eleccion === "1") {
+                       window.location.href = "/sistemabio/facial";
+                      // "{% url 'sistemabio:facial' inquilino.id_usuario %}"
+                      // parrafo.textContent = "Facial"; = "/sistemabio/facial";
+                      console.log("Entrando a Prueba de Foto ");
+                    } else if (eleccion === "2") {
+                      window.location.href=" sistemabio:facial/{{inquilino.id_usuario}} ";
+                      // parrafo.innerHTML = "Voz"; sistemabio:facial/{{inquilino.id_usuario}} "/sistemabio/voz"
+                      console.log("Entrando a Prueba de Voz ");
+					  
+					  }
+// usuario.addEventListener("change", establecerUsuario);
+// function establecerUsuario(){
+//   let eleccion_usuario = usuario.value;
+//   console.log("Entrando a funcion de usuario ", eleccion_usuario);
+//   parrafo.innerHTML = "Usuariojjj";
+// }
+
+
+FORMS
+
+class InquilinoForm(forms.ModelForm):
+    # fecha_nac = forms.DateField(label ='Fecha Nacimiento',
+    #                             widget =  forms.DateInput( 
+    #                                 attrs={
+    #                                     'class': 'form-control',
+    #                                     'placeholder':  'MM-DD-YYYY',
+    #                                         }
+    #                                     ))
+    
+    # ap_paterno = forms.CharField(label = 'Apellido paterno', widget = forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder':"Apellido Paterno ",
+    # } ))
+    # ap_materno = forms.CharField(label = 'Apellido materno', widget = forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder':"Apellido PMaterno ",
+    # } ))       
+    # piso = forms.CharField(label = 'No. Piso:', widget = forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder':"Número de Piso "
+    # } ))
+    # departamento = forms.CharField(label = 'No. Departamento:', widget = forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder':"Número de Departamento "
+    # } ))
+    # telefono = forms.CharField(label = 'No. Teléfono:', widget = forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder':"Telefono "
+    # } ))
+      
+    class Meta:
+        model = Usuario
+        fields = ['nombre','ap_paterno','ap_materno', 'curp','piso','departamento','telefono', 'correo', 'fecha_nac', 'id_perfil', 'id_status']
+        # self.fields['fecha_nac'].widget.attrs[]
+     
+        
+    # def __init__(self, *args,**kwargs):
+    #     super(InquilinoForm,self).__init__(*args,**kwargs)
+    #     self.fields['id_perfil'].widget.attrs['class']= 'form-control'
+    #     self.fields['nombre'].widget.attrs['class']= 'form-control'
+    #     self.fields['nombre'].widget.attrs['placeholder']= "Nombre "
+    #     self.fields['ap_paterno'].widget.attrs['class']= 'form-control'
+        
+    #     self.fields['curp'].widget.attrs['class']= 'form-control'
+    #     self.fields['curp'].widget.attrs['placeholder']= "Curp "
+        
+    #     self.fields['correo'].widget.attrs['class']= 'form-control'
+    #     self.fields['correo'].widget.attrs['placeholder']= "Correo "
+        
+    # #     
+    # })
+        # self.fields['fecha_nac'].widget.attrs['type']=  'date'
+        # self.fields['fecha_nac'].widget.attrs['class']= 'form-control'
+        # self.fields['fecha_nac'].widget.attrs['placeholder']=  'MM-DD-YYYY'
+        
+        # self.fields['id_status'].widget.attrs['class']= 'form-control'
+		
+		
+********************SCRIPT JS FOTOS CAMARA ***************************
+<script language="JavaScript">
+                       Webcam.set({
+                            width: 320, 
+                            height: 240,
+                            image_format: 'jpeg',
+                            jpeg_quality: 90
+                        });
+                        
+                        Webcam.attach('#my_camera');
+                        path="C:/Users/yobis/Desktop/sistemabio/mysite/sistemabio/static/sistemabio/fotos/"
+                        var numPhotos = 10; // Número total de fotos que se van a capturar
+                        var photoCounter = 0; // Contador de fotos capturadas
+                        // var usuario = document.querySelector("#id_usuario");
+                        // var eleccion_usuario = usuario.value;
+                        function takeSnapshotAndSend() {
+                          
+                          for (var i = 0; i <numPhotos; i++) {
+                            // Tomar la instantánea y obtener los datos de la imagen
+                            Webcam.snap(function(data_uri) {
+                              // display results in page
+                              document.getElementById('results').innerHTML = 
+                              // '<img src="'+data_uri+'"/>';
+                              '<img id="imageprev" src="'+data_uri+'"/>';
+                              var valor = document.getElementById("results").innerHTML;
+                              console.log("valor",valor);
+                              document.getElementById("id_dato").value = valor ;
+                              console.log("valor2",valor);
+                              
+                              var valor =data_uri
+                              // Generar un nombre de archivo único para la imagen
+                              var fileName = 'imagen_' + photoCounter + '.png';
+                              
+                              // Guardar la imagen localmente con el nombre de archivo generado
+                              var saveUrl = path + fileName; // Ruta y nombre de archivo para guardar la imagen
+                              // Incrementar el contador de fotos capturadas
+                              photoCounter++;
+                              console.log("Foto tomada ", photoCounter)
+                              
+                            }); 
+                          }
+                          console.log("Total de Fotos tomadas ", photoCounter)
+                          
+                          // console.log("Entrando con id de usuario: ", eleccion_usuario);
+                        }
+                    </script>
+					***************+HTML*****************
+					 <br>
+                      <div id="my_camera"></div>
+                      <br>
+                      <div class="d-flex justify-content-center">
+                       <button type="button" class="btn btn-primary" onclick="takeSnapshotAndSend()">Capturar</button> 
+                      </div>
+                      <br>
+                      <div id="results" ></div>
+                      <br>
+                     <label for="id_dato">Dato:</label>
+                      <input type="text" name="dato" class="form-control" id="id_dato"/>
+
+					
+*************************BOTON PARA REGRESAR***********************
+<!-- <a class="waves-effect waves-light text-white btn p-2 text-center  " style="background: rgb(29, 240, 134);border-radius: 20px;"
+                      href="javascript:window.history.back(); "
+                  > Aceptar
+                 <i class="material-icons small rounded-circle " style="font-size:20px;">face
+                 </i>                   
+            </a>-->
+					
+************************************************************************************************************************************************************************************************************************************************************
+      
+   sistemadbjlap2=# select * from sistemabio_usuario;
+ id_usuario |   nombre   | ap_paterno | ap_materno |         curp         | piso | departamento |   telefono   |             correo             | fecha_nac  |         fecha_creado          |       fecha_actualizado       | id_perfil | id_status
+------------+------------+------------+------------+----------------------+------+--------------+--------------+--------------------------------+------------+-------------------------------+-------------------------------+-----------+-----------
+          3 | jessica    | rojas      | rodriguez  | RIJ981012MMMMM       |    3 |            8 | 3312345678   | jessicasd80611@gmail.com       | 2029-02-09 | 2023-09-14 03:06:24.575853+00 | 2023-09-17 06:08:24.330379+00 | 3         | 3
+          2 | Septiembre | septoembre | prueba3    | 12septiembeprueba3   |   12 |            3 | 123123123123 | jessica12septiembre3@gmail.com | 2022-07-13 | 2023-09-13 03:27:19.75188+00  | 2023-09-16 22:01:14.669311+00 | 1         | 1
+          5 | Julio      | Ortega     | Gutierrez  | GUOJ16092023MMNCS01  |    4 |           50 | 23142526     | julioortega@gmail.com          | 2023-09-16 | 2023-09-16 22:51:17.380708+00 | 2023-09-16 22:51:17.380708+00 | 2         | 1
+          6 | Juan       | Madrigal   | Escutia    | MAEJ16092022MMCNS02  |    5 |            6 | 1234567890   | juanmadrigal@gmail.com         | 2022-09-16 | 2023-09-16 23:11:34.461495+00 | 2023-09-16 23:11:34.461495+00 | 3         | 1
+          8 | Juan3      | Madrigal   | Escutia    | MAEJ216092021MMCNS03 |    5 |           55 | 1234567893   | juanmadrigal3@gmail.com        | 2020-09-16 | 2023-09-16 23:50:14.551779+00 | 2023-09-16 23:50:14.551779+00 | 3         | 4
+         11 | Karla      | Snchez     | Romero     | wwwwwwwwwww          |    5 |           55 | 567856798    | karlajsjjwdnl3@gmail.com       | 2022-09-02 | 2023-09-17 02:10:50.975134+00 | 2023-09-17 02:10:50.975134+00 | 3         | 1
+         10 | Angelica2  | Martinez   | Jimenez    | JIMA16092000MMCNS01  |    8 |           22 | 098764321    | angelicajimenez@gmail.com      | 2000-09-16 | 2023-09-17 02:08:40.397855+00 | 2023-09-17 02:22:37.629521+00 | 4         | 3
+          9 | Angelica   | Martinez   | Jimenez    | JIMA16092000MMCNS01  |    8 |            4 | 098764321    | angelicajimenez@gmail.com      | 2323-09-16 | 2023-09-17 01:50:40.898455+00 | 2023-09-17 02:25:43.587411+00 | 1         | 4
+         12 | Fani       | Mangares   | Flores     | PRUEBA02DJANGO06     |    8 |           38 | 8883338812   | fanimangares@gmail.com         | 1991-10-23 | 2023-09-17 02:38:55.106949+00 | 2023-09-17 02:40:06.865395+00 | 2         | 1
+(9 filas)
+
+
+sistemadbjlap2=#
+
+
+
+sistemadbjlap2=# select * from  sistemabio_sesion;
+ id_sesion | id_tipo_sesion | completado |   dato   |        fecha_creacion         |      fecha_actualizacion      | id_usuario_id
+-----------+----------------+------------+----------+-------------------------------+-------------------------------+---------------
+         6 | 2              | t          | \xd74db8 | 2023-09-15 04:51:46.029302+00 | 2023-09-15 04:51:46.029302+00 |             2
+         7 | 2              | t          | \xd74db8 | 2023-09-17 02:19:14.508794+00 | 2023-09-17 02:19:14.508794+00 |            11
+(2 filas)
+
+
+sistemadbjlap2=#
+
