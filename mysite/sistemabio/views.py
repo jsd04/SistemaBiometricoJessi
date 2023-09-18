@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 
 # Create your views here.
 
@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.template import loader
+import datetime
 #creatiionform
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -108,14 +109,8 @@ def administradores(request):
           'mytitle':title
      })
 
-#Inquilinos
-# def inquilinosinicial(request):
-#      title='Inquilinos Inicial'
-#      return render (request,"sistemabio/inquilinos/inquilinos_inicial_copy.html",{
-#           'mytitle':title
-#      })
 def inquilinos(request):
-     inquilinos = Usuario.objects.all()
+     inquilinos = Usuario.objects.all().order_by('id_usuario')
      paginacion = Paginator(inquilinos,20)
      page_num = request.GET.get('page')
      page = paginacion.get_page(page_num)
@@ -136,11 +131,14 @@ def new_inquilino(request):
      else:
         # print(request.POST)
         # return render(request, 'sistemabio/inquilinos/new-inquilino.html', {"form":  InquilinoForm})
+        # commit=False es para procesar los datos antes de guardar, se usa cuando no tienes todos tus 
+        # campos llenos de ese form   new_inquilino = form.save()  new_inquilino.save()
         try:
             form = InquilinoForm(request.POST)
-            new_inquilino = form.save(commit=False)
-            new_inquilino.save()
+            if form.is_valid():
+               form.save()
             messages.success(request," El registro ha sido un éxito.")
+            print("Formulario es ", form.is_valid())
             return redirect('/sistemabio/new_biometricos/')
         except ValueError:
             messages.error(request, "Error no se creo el inquilino.")
@@ -158,17 +156,12 @@ def new_biometricos(request):
                         'inquilinos': inquilinos
                         })   
       else:
-         try:
-             form = SesionForm(request.POST)
-             new_biometricos = form.save(commit=False)
-             new_biometricos.save()
-             messages.success(request," El registro biométrico ha sido un éxito.")
-             return redirect('/sistemabio/new_biometricos/')
-         except ValueError:
-             messages.error(request, "Error no se registro el biométrico.")
-             return render(request, 'sistemabio/inquilinos/new-biometricos.html', 
-                           {"form":  SesionForm,
-                            "error": "Error registrando el biométrico."})
+         form= SesionForm
+         inquilinos = Usuario.objects.all()
+         return render(request, 'sistemabio/inquilinos/new-biometricos.html', 
+                       {"form": SesionForm,
+                        'inquilinos': inquilinos
+                        })  
 
 @login_required
 def new_biometrico(request, usuario_id):
@@ -249,6 +242,9 @@ def delete_inquilino(request, inquilino_id):
     if request.method == 'POST':
         inquilino.delete()
         return redirect('/sistemabio/inquilinos/')
+    return render(request,"sistemabio/inquilinos/delete-inquilino.html",{
+        'inquilino':inquilino
+    })
 @login_required
 def edit_inquilino(request, usuario_id):
      if request.method == "GET":
@@ -259,14 +255,18 @@ def edit_inquilino(request, usuario_id):
                'form':form})
      else:
           try:
-               inquilino = get_object_or_404(Usuario,pk=usuario_id)
+               inquilino = Usuario.objects.get(pk=usuario_id)
                form = InquilinoForm(request.POST,instance=inquilino)
+               # commit=False es para procesar los datos antes de guardar, se usa cuando no tienes todos tus 
+               # campos llenos de ese form   
+                    # update_inquilino = form.save(commit=False) 
+                    # update_inquilino.save()
+               # if form.is_valid():
                form.save()
-               print('usuario id ', usuario_id)
-               title='Edit Inquilino'
+               print('Edición de usuario: ', usuario_id)
                messages.success(request,"Inquilino actualizado exitosamente")
+               print("Formulario es ", form.is_valid())
                return redirect('/sistemabio/inquilinos/')
-          # , "message": "Inquilino actualizado exitosamente"
           except ValueError:
             messages.error(request, "Error al actualizar el inquilino.")
             return render(request, 'sistemabio/inquilinos/edit-inquilino.html', 
@@ -283,8 +283,9 @@ def facial(request, usuario_id):
                         })
      else:
           try:
-               inquilino = get_object_or_404(Usuario,pk=usuario_id)
-               form = SesionForm3(request.POST,instance=inquilino)
+               #inquilino = get_object_or_404(Usuario,pk=usuario_id)
+               #form = SesionForm3(request.POST,instance=inquilino)
+               form = SesionForm3(request.POST)
                print("formulaeio", form.is_valid())
                new_facial = form.save(commit=False)
                new_facial.save()
@@ -297,7 +298,7 @@ def facial(request, usuario_id):
           except ValueError:
                messages.error(request, "Error no se creo el registro facial.")
                return render(request, 'sistemabio/facial.html', 
-                              { 'inquilino': inquilino,"form":  SesionForm3 , 
+                              { 'inquilino': inquilino,"form":  form , 
                               "error": "Error creando el registro facial."})
           
 def voz(request):

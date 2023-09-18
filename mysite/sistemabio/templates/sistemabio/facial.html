@@ -53,7 +53,7 @@
       </h3>
     </div>
     <div class="card-body text-left bg-success "style="--bs-bg-opacity: .3;">
-      <form actio="/sistemabio/facial/" method="POST" enctype="multipart/form-data" >
+      <form action="/sistemabio/facial/" method="POST" enctype="multipart/form-data" >
         {% csrf_token %} 
        
       <div class="container">
@@ -77,33 +77,22 @@
                       <br>
                       <div id="results" ></div>
                       <br>
-                       
+
+                      <!-- <label for="id_usuario">Usuario:</label>
+                      <select class="form-control" type="text" id="id_usuario" name="id_usuario" >
+                        <option value="{{inquilino.id_usuario}}" selected="selected">Id {{inquilino.id_usuario}} -> {{inquilino.id_usuario}} {{inquilino.nombre}} {{inquilino.ap_paterno}} {{inquilino.ap_materno}}</option>
+                      </select readonly>
+                      
+                      <label for="id_tipo_sesion">Tipo de sesion:</label>
+                      <select class="form-control" type="text" id="id_tipo_sesion" name="id_tipo_sesion" >
+                        <option value="1" selected="selected">FACIAL</option>
+                      </select readonly>
+
                       <label for="id_dato">Dato:</label>
                       <input type="text" name="dato" class="form-control" id="id_dato"/> 
-
-                      <label for="id_usuario">Usuario:</label>
-                      <input type="text" id="id_usuario" name="id_usuario" class="form-control" 
-                        value="Id {{inquilino.id_usuario}} -> {{inquilino.id_usuario}} {{inquilino.nombre}} {{inquilino.ap_paterno}} {{inquilino.ap_materno}}" 
-                        />
-                      <label for="id_tipo_sesion">Tipo de sesion:</label>
-                      <input type="text" id="id_tipo_sesion" name="id_tipo_sesion" class="form-control" 
-                        value=1 readonly>
-                      <label for="id_tipo_sesion">Tipo de sesion:</label>
-                        <select class="form-control" type="text" id="id_tipo_sesion" name="id_tipo_sesion" disabled>
-                        <option value="1 " selected="selected">FACIAL</option>
-                        <option value="2 " disabled >voz</option>
-                      </select readonly>
-                        <!-- <select class="form-control" id="id_usuario">
-                          <option value="">--------</option>
-                          {% for inquilino in inquilinos %}
-                          <option value="{{inquilino.id_usuario}}">{{inquilino.id_usuario}} -> {{inquilino.nombre}} {{inquilino.ap_paterno}} {{inquilino.ap_materno}} </option>
-                          
-                          {% endfor %}
-                        </select> -->
-                        <h5></h5> 
-                        
-                        <h5></h5>
-                        {{form}}
+                       -->
+                      <h5></h5>
+                      {{form}}
                         
                      <script language="JavaScript">
                        Webcam.set({
@@ -140,15 +129,14 @@
                   <br>                  
               </div>
           </div>
-          <div class="row justify-content-end">
-          <div class="col-4 align-self-end">
+       
             <button class="btn btn-info w-100" type="submit">
               Guardar 
               <i class="material-icons "> save</i>
             </button>
     
-          </div>
-      </div>
+         
+      
       </div>
       </form>
     </div>
