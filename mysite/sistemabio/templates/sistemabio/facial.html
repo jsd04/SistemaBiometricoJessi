@@ -53,7 +53,7 @@
       </h3>
     </div>
     <div class="card-body text-left bg-success "style="--bs-bg-opacity: .3;">
-      <form action="/sistemabio/facial/" method="POST" enctype="multipart/form-data" >
+      <form  method="POST" enctype="multipart/form-data" >
         {% csrf_token %} 
        
       <div class="container">
@@ -78,7 +78,7 @@
                       <div id="results" ></div>
                       <br>
 
-                      <!-- <label for="id_usuario">Usuario:</label>
+                      <label for="id_usuario">Usuario:</label>
                       <select class="form-control" type="text" id="id_usuario" name="id_usuario" >
                         <option value="{{inquilino.id_usuario}}" selected="selected">Id {{inquilino.id_usuario}} -> {{inquilino.id_usuario}} {{inquilino.nombre}} {{inquilino.ap_paterno}} {{inquilino.ap_materno}}</option>
                       </select readonly>
@@ -90,7 +90,7 @@
 
                       <label for="id_dato">Dato:</label>
                       <input type="text" name="dato" class="form-control" id="id_dato"/> 
-                       -->
+                      
                       <h5></h5>
                       {{form}}
                         

@@ -27,6 +27,7 @@ urlpatterns = [
 
     #Datos biométricos
     path("facial/<int:usuario_id>/",views.facial, name="facial"),
+    path("facial/<int:usuario_id>,<int:tipo_sesion_id>/",views.facial2, name="facial2"),
     path("voz/", views.voz,name="voz"),
 
 

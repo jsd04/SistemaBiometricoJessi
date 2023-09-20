@@ -286,11 +286,9 @@ def facial(request, usuario_id):
                #inquilino = get_object_or_404(Usuario,pk=usuario_id)
                #form = SesionForm3(request.POST,instance=inquilino)
                form = SesionForm3(request.POST)
-               print("formulaeio", form.is_valid())
+               print("formulario", form.is_valid())
                new_facial = form.save(commit=False)
                new_facial.save()
-
-               
                # form.save()
                print('usuario id facial ', usuario_id)
                messages.success(request," El registro facial ha sido un éxito.")
@@ -301,6 +299,33 @@ def facial(request, usuario_id):
                               { 'inquilino': inquilino,"form":  form , 
                               "error": "Error creando el registro facial."})
           
+def facial2(request, usuario_id, tipo_sesion_id):
+     if request.method == "GET":
+         #inquilino = get_object_or_404(Usuario,pk=usuario_id, id_tipo_sesion=tipo_sesion_id)
+         inquilino = get_object_or_404(Usuario, id_tipo_sesion=tipo_sesion_id)
+         form= SesionForm3(instance=inquilino)
+         return render(request, 'sistemabio/facial.html', 
+                       {  'inquilino':inquilino,
+                          "form": form
+                        })
+     else:
+          try:
+               #inquilino = get_object_or_404(Usuario,pk=usuario_id)
+               #form = SesionForm3(request.POST,instance=inquilino)
+               form = SesionForm3(request.POST)
+               print("formulario", form.is_valid())
+               new_facial = form.save(commit=False)
+               new_facial.save()
+               # form.save()
+               print('usuario id facial ', usuario_id)
+               messages.success(request," El registro facial ha sido un éxito.")
+               return redirect('/sistemabio/inquilinos/')
+          except ValueError:
+               messages.error(request, "Error no se creo el registro facial.")
+               return render(request, 'sistemabio/facial.html', 
+                              { 'inquilino': inquilino,"form":  form , 
+                              "error": "Error creando el registro facial."})
+                    
 def voz(request):
      title='Voz'
      return render (request,'sistemabio/voz.html',{
