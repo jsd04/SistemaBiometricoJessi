@@ -228,9 +228,10 @@ def search_inquilino(request):
           'inquilinos':inquilinos
      })
 #     
-def detail_inquilino(request, usuario_id):
-    inquilino = get_object_or_404(Usuario,pk=usuario_id)
+def detail_inquilino(request, usuario_id, sesion_id):
+    inquilino = get_object_or_404(Usuario,pk=usuario_id, id_sesion=sesion_id)
     print('usuario id ', usuario_id)
+    print('sesion id ', sesion_id)
     title='detail'
     return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
         'mytitle':title,
