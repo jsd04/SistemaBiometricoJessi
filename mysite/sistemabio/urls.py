@@ -21,14 +21,13 @@ urlpatterns = [
     path("new_biometrico/<int:usuario_id>/", views.new_biometrico, name="new_biometrico"),
 
     path("search_inquilino/",views.search_inquilino, name="search_inquilino"),
-    # path("detail_inquilino/<int:usuario_id>/",views.detail_inquilino, name ="detail_inquilino"),
-    path("detail_inquilino/<int:usuario_id>/<int:sesion_id>/",views.detail_inquilino, name ="detail_inquilino"),
+    path("detail_inquilino/<int:usuario_id>/",views.detail_inquilino, name ="detail_inquilino"),
     path("delete_inquilino/<int:inquilino_id>/", views.delete_inquilino, name="delete_inquilino"),
     path("edit_inquilino/<int:usuario_id>/", views.edit_inquilino, name="edit_inquilino"),
 
     #Datos biométricos
     path("facial/<int:usuario_id>/",views.facial, name="facial"),
-    # path("facial/<int:usuario_id>/<int:sesion_id>/",views.facial2, name="facial2"),
+    path("facial/<int:usuario_id>,<int:tipo_sesion_id>/",views.facial2, name="facial2"),
     path("voz/", views.voz,name="voz"),
 
 

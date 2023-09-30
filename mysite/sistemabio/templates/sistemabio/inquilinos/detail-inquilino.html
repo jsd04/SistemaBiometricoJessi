@@ -96,54 +96,15 @@
         <p>Status: {{inquilino.id_status}}</p>
         <p>Fecha de creación: {{ inquilino.fecha_creado }}</p>
         <p>Fecha de actualización: {{ inquilino.fecha_actualizado }}</p>
-        
-        {% for sesion in sesiones %} 
-        {% if sesion.id_usuario_id == inquilino.id_usuario %}
         <h1>Datos Biométricos</h1>
-           <p>Id sesion: {{ sesion.id_sesion }}</p>
-           <p>id_usuario: {{sesion.id_usuario}}</p>
-           <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
-           <p>dato :{{sesion.dato }}</p>
-           <p> fecha_creacion de usuario: {{sesion.fecha_creacion}} </p>
-           <p> fecha_actualizacion de usuario: {{sesion.fecha_actualizacion}}</p>
-          {% endif %} 
-         
-        {% endfor %} 
-
-        <h1>Datos Biométricos</h1>
-        <p>Id sesion: {{ sesion.id_sesion }}</p>
-        <p>id_usuario: {{sesion.id_usuario}}</p>
-        <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
-        <p>dato :{{sesion.dato }}</p>
-        <p> fecha_creacion de usuario: {{sesion.fecha_creacion}} </p>
-        <p> fecha_actualizacion de usuario: {{sesion.fecha_actualizacion}}</p>
-        
-        {% if sesion.id_usuario_id == inquilino.id_usuario %}
-        
-          Tipo sesion: {{ sesion.id_tipo_sesion }} 
-          <input name="completado" type="checkbox" value="completado" /> 
-          <br> 
-        
-        {% endif %}
-        
-    
-    
-        <!-- <h1>Datos Biométricos</h1>
-        nfjjrn
-         <p>Id de sesion: {{inquilino.id_sesion}}</p>
-          Id tipo de sesion: {{sesion.id_tipo_sesion}}
-        z
-        <br>
-        <br>
-      {% for sesion in sesiones  %} -->
-        
-       
+        <!-- {% for sesion in sesiones  %} -->
+        <p>Id de sesion: {{inquilino.id_sesion}}
+          Id tipo de sesion: {{id_tipo_sesion}}</p>
         <!-- {% endfor %} -->
         
         <ul class="list-group list-group-unbordered mb-3">
           <li class="list-group-item">
             <b>Facial</b>  <input name="completado" type="checkbox" value="completado" /><a class="float-right">1,322</a>
-             <p>Dato: {{sesion.dato}}</p>
           </li>
           <li class="list-group-item">
             <b>Huella</b> <input name="completado" type="checkbox" value="completado" /><a class="float-right">543</a>
