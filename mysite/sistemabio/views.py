@@ -233,8 +233,15 @@ def detail_inquilino(request, usuario_id):
      #    print('dato: ',sesion['id_sesion']) para acceder a los campos es con '' dentro de corchetes
         print('=======================')   
         print('dato: ',sesion['dato'])
-        python64 = base64.b64encode(sesion['dato'])
-        print(python64)
+        pytho = base64.b64encode(sesion['dato'])
+        python642 = pytho.decode('utf-8')
+        print(pytho)
+        print('-------------------------------')
+        print(python642)
+        print('+++++++++++++++++++++++++++++++++')
+        python6423 = str(python642).replace('dataimage/jpegbase64','data:image/jpeg;base64,')
+        print('\'Hello\'')
+        print('uuuuuuuuuu',python6423)
         print('***********************')
 
     title='detail'
@@ -242,6 +249,8 @@ def detail_inquilino(request, usuario_id):
         'mytitle':title,
         'inquilino':inquilino,
         'sesiones':sesiones,
+        'python642': python642,
+        'python6423' : python6423,
     })
 # def detail_inquilino2(request, usuario_id, sesion_idu):
 #     inquilino = get_object_or_404(Usuario,id_usuario=usuario_id)
