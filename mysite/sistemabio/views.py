@@ -1,7 +1,3 @@
-# from django.shortcuts import render
-
-# Create your views here.
-
 from django.http import HttpResponseRedirect,HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect, get_object_or_404
 from django.urls import reverse
@@ -9,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 from django.template import loader
 import datetime
+import base64
 #creatiionform
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -18,8 +15,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
-
-
 from .models import Usuario, Sesion
 from .forms import InquilinoForm, SesionForm, SesionForm2, SesionForm3
 
@@ -30,8 +25,7 @@ def index(request):
     # return HttpResponse("Hello, world. You're at the polls index.")
      return render (request,"sistemabio/index.html",{
           'mytitle':title
-     })
-     
+     })  
 def signup(request):
         if request.method == 'GET':
             print('enviando formulario')
@@ -97,7 +91,6 @@ def about(request):
      return render (request,"sistemabio/about.html",{
           'mytitle':title
      })
-
 def perfil_administrador(request):
      title='Perfil administrador'
      return render (request,"sistemabio/administradores/perfil.html",{
@@ -108,7 +101,7 @@ def administradores(request):
      return render (request,"sistemabio/administradores/administradores.html",{
           'mytitle':title
      })
-
+# Inquiinos
 def inquilinos(request):
      inquilinos = Usuario.objects.all().order_by('id_usuario')
      paginacion = Paginator(inquilinos,20)
@@ -229,13 +222,38 @@ def search_inquilino(request):
      })
 #     
 def detail_inquilino(request, usuario_id):
-    inquilino = get_object_or_404(Usuario,pk=usuario_id)
+    inquilino = get_object_or_404(Usuario,id_usuario=usuario_id)
+    sesiones =  Sesion.objects.all().filter(id_usuario_id=usuario_id).values() 
+#    sesiones =  Sesion.objects.filter(id_usuario=1).values('id_sesion', 'id_usuario_id', 'id_tipo_sesion', 'completado', 'dato', 'fecha_creacion', 'fecha_actualizacion')
     print('usuario id ', usuario_id)
+    print(sesiones)
+    print('................')
+    for sesion in sesiones:
+     #    print('dato: ',sesion)
+     #    print('dato: ',sesion['id_sesion']) para acceder a los campos es con '' dentro de corchetes
+        print('=======================')   
+        print('dato: ',sesion['dato'])
+        python64 = base64.b64encode(sesion['dato'])
+        print(python64)
+        print('***********************')
+
     title='detail'
     return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
         'mytitle':title,
-        'inquilino':inquilino
+        'inquilino':inquilino,
+        'sesiones':sesiones,
     })
+# def detail_inquilino2(request, usuario_id, sesion_idu):
+#     inquilino = get_object_or_404(Usuario,id_usuario=usuario_id)
+#     sesion = get_object_or_404(Sesion, id_usuario_id=sesion_idu)
+#     print('usuario id ', usuario_id)
+#     print('sesion id ', sesion_idu)
+#     title='detail'
+#     return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
+#         'mytitle':title,
+#         'inquilino':inquilino,
+#         'sesion':sesion,
+#     })
 
 def delete_inquilino(request, inquilino_id):
     inquilino = Usuario.objects.get( id_usuario=inquilino_id)
@@ -299,38 +317,64 @@ def facial(request, usuario_id):
                               { 'inquilino': inquilino,"form":  form , 
                               "error": "Error creando el registro facial."})
           
-def facial2(request, usuario_id, tipo_sesion_id):
+# def facial2(request, usuario_id, tipo_sesion_id):
+#      if request.method == "GET":
+#          #inquilino = get_object_or_404(Usuario,pk=usuario_id, id_tipo_sesion=tipo_sesion_id)
+#          inquilino = get_object_or_404(Usuario, id_tipo_sesion=tipo_sesion_id)
+#          form= SesionForm3(instance=inquilino)
+#          return render(request, 'sistemabio/facial.html', 
+#                        {  'inquilino':inquilino,
+#                           "form": form
+#                         })
+#      else:
+#           try:
+#                #inquilino = get_object_or_404(Usuario,pk=usuario_id)
+#                #form = SesionForm3(request.POST,instance=inquilino)
+#                form = SesionForm3(request.POST)
+#                print("formulario", form.is_valid())
+#                new_facial = form.save(commit=False)
+#                new_facial.save()
+#                # form.save()
+#                print('usuario id facial ', usuario_id)
+#                messages.success(request," El registro facial ha sido un éxito.")
+#                return redirect('/sistemabio/inquilinos/')
+#           except ValueError:
+#                messages.error(request, "Error no se creo el registro facial.")
+#                return render(request, 'sistemabio/facial.html', 
+#                               { 'inquilino': inquilino,"form":  form , 
+#                                "error": "Error creando el registro facial."})
+                    
+def voz(request,usuario_id):
      if request.method == "GET":
-         #inquilino = get_object_or_404(Usuario,pk=usuario_id, id_tipo_sesion=tipo_sesion_id)
-         inquilino = get_object_or_404(Usuario, id_tipo_sesion=tipo_sesion_id)
+         inquilino = get_object_or_404(Usuario,pk=usuario_id)
          form= SesionForm3(instance=inquilino)
-         return render(request, 'sistemabio/facial.html', 
+         return render(request, 'sistemabio/voz.html', 
                        {  'inquilino':inquilino,
                           "form": form
                         })
      else:
           try:
-               #inquilino = get_object_or_404(Usuario,pk=usuario_id)
-               #form = SesionForm3(request.POST,instance=inquilino)
+               # inquilino = get_object_or_404(Usuario,pk=usuario_id)
+               # form = SesionForm3(request.POST,instance=inquilino)
                form = SesionForm3(request.POST)
                print("formulario", form.is_valid())
-               new_facial = form.save(commit=False)
-               new_facial.save()
+               new_voz = form.save(commit=False)
+               new_voz.save()
                # form.save()
-               print('usuario id facial ', usuario_id)
-               messages.success(request," El registro facial ha sido un éxito.")
+               print('usuario id voz ', usuario_id)
+               messages.success(request," El registro de voz ha sido un éxito.")
                return redirect('/sistemabio/inquilinos/')
           except ValueError:
-               messages.error(request, "Error no se creo el registro facial.")
-               return render(request, 'sistemabio/facial.html', 
-                              { 'inquilino': inquilino,"form":  form , 
-                              "error": "Error creando el registro facial."})
-                    
-def voz(request):
-     title='Voz'
-     return render (request,'sistemabio/voz.html',{
-          'mytitle':title
-     })
+               messages.error(request, "Error no se creo el registro de voz.")
+               return render(request, 'sistemabio/voz.html', 
+                              { 
+                              #     'inquilino': inquilino,
+                                  "form":  form , 
+                              "error": "Error creando el registro de voz."})
+     # title='Voz'
+     # return render (request,'sistemabio/voz.html',{
+     #      'mytitle':title
+     # })
 
 
 

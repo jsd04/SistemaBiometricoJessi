@@ -35,7 +35,7 @@ class InquilinoForm(forms.ModelForm):
         
                                               
    
-
+#solo usuario
 class SesionForm(ModelForm):
     class Meta:
         model = Sesion
@@ -44,7 +44,7 @@ class SesionForm(ModelForm):
          super(SesionForm,self).__init__(*args,**kwargs)
         # self.fields['id_tipo_sesion'].widget.attrs['class']='form-control'
          self.fields['id_usuario'].widget.attrs['class']= 'form-control'
-
+#solo dato
 class SesionForm2(ModelForm):
     class Meta:
         model = Sesion
@@ -53,7 +53,7 @@ class SesionForm2(ModelForm):
         super(SesionForm2,self).__init__(*args,**kwargs)
         
         self.fields['dato'].widget.attrs['class']= 'form-control'
-
+#todo el modelo
 class SesionForm3(ModelForm):
     class Meta:
         model = Sesion

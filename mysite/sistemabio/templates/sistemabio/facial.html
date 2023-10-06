@@ -85,14 +85,14 @@
                       
                       <label for="id_tipo_sesion">Tipo de sesion:</label>
                       <select class="form-control" type="text" id="id_tipo_sesion" name="id_tipo_sesion" >
-                        <option value="1" selected="selected">FACIAL</option>
+                        <option value="1" selected="selected">Tipo sesion {{sesion.id_tipo_sesion}} ->FACIAL</option>
                       </select readonly>
 
                       <label for="id_dato">Dato:</label>
                       <input type="text" name="dato" class="form-control" id="id_dato"/> 
                       
                       <h5></h5>
-                      {{form}}
+                      <!-- {{form}} -->
                         
                      <script language="JavaScript">
                        Webcam.set({

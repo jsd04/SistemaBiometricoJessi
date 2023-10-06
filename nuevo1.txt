@@ -176,3 +176,95 @@ sistemadbjlap2=# select * from  sistemabio_sesion;
 
 sistemadbjlap2=#
 
+}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+ <p>Status: {{inquilino.id_status}}</p>
+        <p>Fecha de creación: {{ inquilino.fecha_creado }}</p>
+        <p>Fecha de actualización: {{ inquilino.fecha_actualizado }}</p>
+        
+        {% for sesion in sesiones %} 
+        {% if sesion.id_usuario_id == inquilino.id_usuario %}
+        <h1>Datos Biométricos</h1>
+           <p>Id sesion: {{ sesion.id_sesion }}</p>
+           <p>id_usuario: {{sesion.id_usuario}}</p>
+           <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
+           <p>dato :{{sesion.dato }}</p>
+           <p> fecha_creacion de usuario: {{sesion.fecha_creacion}} </p>
+           <p> fecha_actualizacion de usuario: {{sesion.fecha_actualizacion}}</p>
+          {% endif %} 
+         
+        {% endfor %} 
+
+        <h1>Datos Biométricos</h1>
+        <!-- {% for sesion in sesiones  %} -->
+        <p>Id de sesion: {{inquilino.id_sesion}}
+          Id tipo de sesion: {{id_tipo_sesion}}</p>
+        <p>Id sesion: {{ sesion.id_sesion }}</p>
+        <p>id_usuario: {{sesion.id_usuario}}</p>
+        <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
+        <p>dato :{{sesion.dato }}</p>
+        <p> fecha_creacion de usuario: {{sesion.fecha_creacion}} </p>
+        <p> fecha_actualizacion de usuario: {{sesion.fecha_actualizacion}}</p>
+        
+        {% if sesion.id_usuario_id == inquilino.id_usuario %}
+        
+          Tipo sesion: {{ sesion.id_tipo_sesion }} 
+          <input name="completado" type="checkbox" value="completado" /> 
+          <br> 
+        
+        {% endif %}
+        
+    
+    
+        <!-- <h1>Datos Biométricos</h1>
+        nfjjrn
+         <p>Id de sesion: {{inquilino.id_sesion}}</p>
+          Id tipo de sesion: {{sesion.id_tipo_sesion}}
+        z
+        <br>
+        <br>
+      {% for sesion in sesiones  %} -->
+        
+       
+        <!-- {% endfor %} -->
+        
+        <ul class="list-group list-group-unbordered mb-3">
+          <li class="list-group-item">
+            <b>Facial</b>  <input name="completado" type="checkbox" value="completado" /><a class="float-right">1,322</a>
+             <p>Dato: {{sesion.dato}}</p>
+          </li>
+          <li class="list-group-item">
+            <b>Huella</b> <input name="completado" type="checkbox" value="completado" /><a class="float-right">543</a>
+}}}}}}}}}}}}}}}}}}}}}}7
+    path("new_biometrico/<int:usuario_id>/", views.new_biometrico, name="new_biometrico"),
+
+    path("search_inquilino/",views.search_inquilino, name="search_inquilino"),
+    path("detail_inquilino/<int:usuario_id>/",views.detail_inquilino, name ="detail_inquilino"),
+    # path("detail_inquilino/<int:usuario_id>/",views.detail_inquilino, name ="detail_inquilino"),
+    path("detail_inquilino/<int:usuario_id>/<int:sesion_id>/",views.detail_inquilino, name ="detail_inquilino"),
+    path("delete_inquilino/<int:inquilino_id>/", views.delete_inquilino, name="delete_inquilino"),
+    path("edit_inquilino/<int:usuario_id>/", views.edit_inquilino, name="edit_inquilino"),
+
+    #Datos biométricos
+    path("facial/<int:usuario_id>/",views.facial, name="facial"),
+    path("facial/<int:usuario_id>,<int:tipo_sesion_id>/",views.facial2, name="facial2"),
+    # path("facial/<int:usuario_id>/<int:sesion_id>/",views.facial2, name="facial2"),
+    path("voz/", views.voz,name="voz"),
+}}}}}}}}}}}}}}}
+          'inquilinos':inquilinos
+     })
+#     
+def detail_inquilino(request, usuario_id):
+    inquilino = get_object_or_404(Usuario,pk=usuario_id)
+def detail_inquilino(request, usuario_id, sesion_id):
+    inquilino = get_object_or_404(Usuario,pk=usuario_id, id_sesion=sesion_id)
+    print('usuario id ', usuario_id)
+    print('sesion id ', sesion_id)
+    title='detail'
+    return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
+        'mytitle':title,
+
+
+}}}}}}}}}}}
+
+
+ <!-- <a  href="{% url 'sistemabio:detail_inquilino' inquilino.id_usuario inquilino.id_sesion %}"></a> -->
