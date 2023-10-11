@@ -33,11 +33,10 @@ def signup(request):
         if request.method == 'GET':
             print('enviando formulario')
             title='Registrar'
-            return render(request,"sistemabio/signup.html",
-                         {
-                              'mytitle':title,
-                              'form':UserCreationForm
-                         } ) 
+            return render(request, "sistemabio/signup.html",{
+                'mytitle':title,
+                'form':UserCreationForm
+            } ) 
         else:
              if request.POST["password1"] == request.POST["password2"]:
                   #register user
@@ -253,33 +252,38 @@ def detail_inquilino(request, usuario_id):
      #    print('dato: ',sesion['id_sesion']) para acceder a los campos es con '' dentro de corchetes
         print('=======================')   
         print('dato: ',sesion['dato'])
+        #tenemos los numeros en byte que es la variable sesion['dato']
+        #por lo que solo falta codificarla en base64 cpn la siguiente linea
         pytho = base64.b64encode(sesion['dato'])
-        print('-------------------------------')
-        print(pytho)
+        #ahora la  decodificamos de bytes a caracteres
         python642 = pytho.decode('utf-8')
-        print('+++++++++++++++++++++++++++++++++')
+        print(pytho)
+        print('-------------------------------')
         print(python642)
-        datos_div = python642.split()
-        # Procesar cada elemento en un bucle
-        i=0
-        for dato_div in datos_div:
-             # Realiza alguna acción con el elemento, por ejemplo, imprimirlo
-             variable = datos_div[i]
-             print('************************************************************')
-             print('cadena dividida: ',variable)
-             python6423 = 'data:image/jpg;base64,' + str(variable)
-             print('***********************')
-             print('uuuuuuuuuu',python6423)
+        print('+++++++++++++++++++++++++++++++++')
+        python6423 = str(python642).replace('dataimage/jpegbase64','data:image/jpeg;base64,')
+     #     python6423 = 'data:image/jpg;base64,' + str(python642)
+        print('uuuuuuuuuu',python6423)
+        print('***********************')
 
     title='detail'
     return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
         'mytitle':title,
         'inquilino':inquilino,
         'sesiones':sesiones,
-        'python6423' : python6423
-        ,
+        'python6423' : python6423,
     })
-
+# def detail_inquilino2(request, usuario_id, sesion_idu):
+#     inquilino = get_object_or_404(Usuario,id_usuario=usuario_id)
+#     sesion = get_object_or_404(Sesion, id_usuario_id=sesion_idu)
+#     print('usuario id ', usuario_id)
+#     print('sesion id ', sesion_idu)
+#     title='detail'
+#     return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
+#         'mytitle':title,
+#         'inquilino':inquilino,
+#         'sesion':sesion,
+#     })
 
 def delete_inquilino(request, inquilino_id):
     inquilino = Usuario.objects.get( id_usuario=inquilino_id)
@@ -356,38 +360,29 @@ def facial(request, usuario_id):
                dato = form['dato'].value()
                dato_rep = str(dato).replace('data:image/jpeg;base64,', '')
                print('dato_rep: ', dato_rep)
-               #División de la cadena
-               datos_div = dato_rep.split(',')
-               # Procesar cada elemento en un bucle
-               i=0
-               for dato_div in datos_div:
-                    # Realiza alguna acción con el elemento, por ejemplo, imprimirlo
-                    variable = datos_div[i]
-                    print('*************///////////////////////////////********************')
-                    print('cadena dividida: ',variable)
-                    # variable_rep = variable.rstrip(variable[-1])
-                    # print('cadena div_rep: ',variable_rep)
-                    #primero codificamos de string/cadena/caracteres a bytes por que la función b64encode no recibe str como parámetro, sino bytes
-                    dato_utf= variable.encode('utf-8')
-                    print('imagen decode: ',dato_utf )
-                    #decodificamos los bytes en base64
-                    img_decode = base64.b64decode(dato_utf)
-                    img_name= 'rostro_{}.jpg'.format(i)
-                    img_file = open(personPath+'/'+img_name, 'wb')
-                    img_file.write(img_decode)
-                    i += 1
+               #primero codificamos de string/cadena/caracteres a bytes por que la función b64encode no recibe str como parámetro, sino bytes
+               dato_utf= dato_rep.encode('utf-8')
+               print('imagen decode: ',dato_utf )
+               #decodificamos los bytes en base64
+               img_decode = base64.b64decode(dato_utf)
+               img_name= 'prueba11235_{}.jpg'.format(2)
+               img_file = open(personPath+'/'+img_name, 'wb')
+               img_file.write(img_decode)
                # inicia la deteccion y recorte 
                faceClassif = cv2.CascadeClassifier('C:/Users/yobis/Desktop/sistemabiors/SistemaBiometricoJessi/mysite/sistemabio/static/haarcascades/haarcascade_frontalface_default.xml')
                captureList = os.listdir(personPath)
                print('lista de imagenes', captureList)
-               image_array = []
                count = 0
                for filename in captureList:
                     imagepath = personPath+"/"+filename
                     print(imagepath)
+                    # image_file = open(personPath +'/'+filename, 'rb')
+                    # print(image_file)
+                    # image = image_file.read()
                     image = cv2.imread(imagepath)
                     if image is None: continue
                     imageAux = cv2.imread(imagepath)
+                    # imageAux = image_file.read()
                     gray = cv2.cvtColor(image,  cv2.COLOR_BGR2GRAY)
                     faces = faceClassif.detectMultiScale(gray, 1.1, 5)
                     for (x, y, w, h) in faces:
@@ -397,24 +392,48 @@ def facial(request, usuario_id):
                          rostro = cv2.resize(rostro, (150, 150), interpolation=cv2.INTER_CUBIC)
                          cv2.imwrite(personPath +'/'+ filename, rostro)
                          print('leyendo imagenerecorte')
-
+                    # image.close()
+                    # os.remove(imagepath)
+               #volver  asubir imagenes a la bd
+               # print('lista de imagenes 2 ', captureList)
+               # for filename in captureList:
                     imagepath = personPath+"/"+filename
                     print(imagepath)
-                    image_file = open(personPath +'/'+filename, 'rb')
-                    image = image_file.read()
-                    # # Añadir un espacio en blanco antes de los datos de la imagen
-                    # space = b','  # Espacio en blanco como bytes
-                    # image_data_with_space = space + image
-                    # image_array.append(image_data_with_space)
+                    image = cv2.imread(imagepath)
+                    # image_file = open(personPath +'/'+filename, 'rb')
+                    # # print("image: ",image)
+                    # image = image_file.read()
+                    # imag_utf =image.encode('utf-8')
+                    # print('dddd ',imag_utf)
+                    #tenemos los numeros en byte que es la variable sesion['dato']
+                    #por lo que solo falta codificarla en base64 cpn la siguiente linea
+                    # pytho = base64.b64decode(image)
+                    # print(pytho)
+                    print('-------------------------------')
+                    # #ahora la  decodificamos de bytes a caracteres
+                    python642 = base64.b64encode(image)
+                    print(python642)
+                    decode_img = python642.decode('utf-8')
+                    print('ppppppppp ', decode_img)
+                    # python6424 = python642.encode('utf-8')
+                    # print(python6424)
+                    # print('+++++++++++++++++++++++++++++++++')
+                    # python6423 = 'data:image/jpg;base64,' + str(python642)
+                    # print('===============',python6423)
+                    # python6425 = python6423.encode('utf-8')
+                    # print(python6425)
+                    # python = base64.b64encode(python6425)
+                    # print('**************',python)
+                    # # usando join(), format() y bytearray() para convertir a binario  
+                    # # bin_result =  '' .join(format(x, '08b' )  for  x in bytearray(python6423, 'utf-8' ))  
+                    # # print('*-*-*-*-*-*-*-*-*-*-*-*', bin_result)
 
-                    # # image_array.append(' ' + image)
-                    
                count += 1
                print(new_facial)
-               # combined_image_data = b''.join(image_array)
-               # new_facial.dato = combined_image_data
-               new_facial.dato = image
-               print(new_facial.dato)
+               # print('form dato: ', form['dato'].value())
+               # dato = form['dato'].value()
+               new_facial.dato = decode_img
+               # print(new_facial.dato)
                new_facial.save()
 
               

@@ -105,15 +105,21 @@
            <p>id_usuario: {{sesion.id_usuario_id}}</p>
            <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
            <p>dato : {{sesion.dato}} </p>
+           
            <p>dato : 
             <img src="{{python6423}}">
            </p>
+           
            <p> fecha_creacion de usuario: {{sesion.fecha_creacion}} </p>
            <p> fecha_actualizacion de usuario: {{sesion.fecha_actualizacion}}</p>
           {% endif %} 
          
         {% endfor %}
-        <p>hhh</p>
+        <p>hhh   </p>
+       
+        <a href="https://biometricsystem.hugedata.systems/datos/">
+          <i class='fas fa-edit' style='font-size:36px'></i>
+        </a>
         {% if sesion.id_usuario_id == inquilino.id_usuario %}
           <p>SI ENTRO </p>
           <!-- {% if sesion.id_tipo_sesion == '1' %}
