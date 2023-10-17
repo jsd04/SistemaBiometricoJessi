@@ -88,6 +88,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'PruebaDjango',
+#         'ENFORCE_SCHEMA': False,
+#         'CLIENT': {
+#             'host': 'mongodb+srv://jessicasd:JESSICAsd@cluster0.jqyov.mongodb.net/PruebaDjango'
+#         },
+#     }
+# }
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',

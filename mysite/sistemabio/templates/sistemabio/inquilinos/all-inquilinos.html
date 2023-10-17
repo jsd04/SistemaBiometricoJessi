@@ -153,6 +153,24 @@
                         
                           Tipo sesion: {{ sesion.id_tipo_sesion }} 
                           <input name="completado" type="checkbox" value="completado" /> 
+                          <p> completado : {{sesion.completado}}</p>
+                          {% if sesion.id_tipo_sesion == '1' %} 
+                            {% if sesion.completado == True %}
+                            <input name="completado" type=checkbox checked onclick="return false;"/>
+                            {% else %}  
+                            <input name="completado" type=checkbox  onclick="return false;"/>
+                            {% endif %}
+                          {% endif %}
+                          <!-- {% if sesion.id_tipo_sesion == '2' and sesion.completado == True %}
+                          <input name="completado" type=checkbox checked onclick="return false;"/>
+                          {% else %}  
+                          <input name="completado" type=checkbox  onclick="return false;"/>
+                          {% endif %}
+                          {% if sesion.id_tipo_sesion == '3' and sesion.completado == True %}
+                          <input name="completado" type=checkbox checked onclick="return false;"/>
+                          {% else %}  
+                          <input name="completado" type=checkbox  onclick="return false;"/>
+                          {% endif %} -->
                           <br> 
                         
                         {% endif %}

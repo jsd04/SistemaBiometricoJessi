@@ -163,20 +163,69 @@
         {% endif %}
         
         <ul class="list-group list-group-unbordered mb-3">
-          <li class="list-group-item">
-            <b>Facial</b>  <input name="completado" type="checkbox" value="completado" /><a class="float-right">1,322</a>
-            <p>Dato: {{sesion.dato}}</p>
-          </li>
-          <li class="list-group-item">
-            <b>Huella</b> <input name="completado" type="checkbox" value="completado" /><a class="float-right">543</a>
-            <p>Dato: {{sesion.dato}}</p>
+          <h1>Datos Biométricos</h1>
+           {% for sesion in sesiones %} 
+            {% if sesion.id_usuario_id == inquilino.id_usuario %}
+              {% if sesion.id_tipo_sesion == '1' %}
+                <li class="list-group-item">
+                  <b>Facial</b>  <input name="completado" type="checkbox" value="completado" /><a class="float-right">1,322</a>
+                  <p>Id sesion: {{ sesion.id_sesion }}</p>
+                  <p>id_usuario: {{sesion.id_usuario_id}}</p>
+                  <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
+                  <p>dato : {{sesion.dato}} </p>
+                  <p>dato : 
+                    <img src="{{python6423}}">
+                  </p>
+                  <p> completado : {{sesion.completado}}</p>
+                  {% if sesion.completado == True %}
+                  <input name="completado" type=checkbox checked onclick="return false;"/>
+                  {% else %}  
+                  <input name="completado" type=checkbox  onclick="return false;"/>
+                  {% endif %}
+                </li>
+              {% endif %}
+              {% if sesion.id_tipo_sesion == '3' %}
+                <li class="list-group-item">
+                  <b>Huella</b> <input name="completado" type="checkbox" value="completado" /><a class="float-right">543</a>
+                  <p>Dato: {{sesion.dato}}</p>
+                  <p>Id sesion: {{ sesion.id_sesion }}</p>
+                  <p>id_usuario: {{sesion.id_usuario_id}}</p>
+                  <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
+                  <p>dato : {{sesion.dato}} </p>
+                  <p> completado : {{sesion.completado}}</p>
+                  {% if sesion.completado == True %}
+                  <input name="completado" type=checkbox checked onclick="return false;"/>
+                  {% else %}  
+                  <input name="completado" type=checkbox  onclick="return false;"/>
+                  {% endif %}
+                </li>
+              {% endif %}
+              {% if sesion.id_tipo_sesion == '2' %}
+                <li class="list-group-item">
+                  <b>Voz</b><input name="completado" type="checkbox" value="completado" /> <a class="text-right">13,287</a>
+                  <p>Dato: {{sesion.dato}}</p>
+                  <p>Id sesion: {{ sesion.id_sesion }}</p>
+                  <p>id_usuario: {{sesion.id_usuario_id}}</p>
+                  <p>id_tipo_sesion : {{sesion.id_tipo_sesion }}</p>
+                  <p>dato : {{sesion.dato}} </p>
+                  <p>dato : {{python6423}}</p>
+                  <p> completado : {{sesion.completado}}</p>
+                  {% if sesion.completado == True %}
+                  <input name="completado" type=checkbox checked onclick="return false;"/>
+                  {% else %}  
+                  <input name="completado" type=checkbox  onclick="return false;"/>
+                  {% endif %}
+    
+                </li>
+              {% endif %}
 
-          </li>
-          <li class="list-group-item">
-            Voz  <input name="completado" type="checkbox" value="completado" /> <a class="text-right">13,287</a>
-          </li>
+            {% endif %} 
+            
+           {% endfor %}
+         
         </ul>
-        
+         
+       
         <!-- DELETE REQUEST -->
         
         <a class="btn btn-danger" href="{% url 'sistemabio:delete_inquilino' inquilino.id_usuario  %}">Delete

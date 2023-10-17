@@ -249,27 +249,33 @@ def detail_inquilino(request, usuario_id):
     print(sesiones)
     print('................')
     for sesion in sesiones:
+        if sesion['id_tipo_sesion'] == '1':
+          #cambiar el checkboox
+          # sesion['completado']=True
      #    print('dato: ',sesion)
      #    print('dato: ',sesion['id_sesion']) para acceder a los campos es con '' dentro de corchetes
-        print('=======================')   
-        print('dato: ',sesion['dato'])
-        pytho = base64.b64encode(sesion['dato'])
-        print('-------------------------------')
-        print(pytho)
-        python642 = pytho.decode('utf-8')
-        print('+++++++++++++++++++++++++++++++++')
-        print(python642)
-        datos_div = python642.split()
-        # Procesar cada elemento en un bucle
-        i=0
-        for dato_div in datos_div:
-             # Realiza alguna acción con el elemento, por ejemplo, imprimirlo
-             variable = datos_div[i]
-             print('************************************************************')
-             print('cadena dividida: ',variable)
-             python6423 = 'data:image/jpg;base64,' + str(variable)
-             print('***********************')
-             print('uuuuuuuuuu',python6423)
+          print('=======================')   
+          print('dato: ',sesion['dato'])
+          pytho = base64.b64encode(sesion['dato'])
+          print('-------------------------------')
+          print(pytho)
+          python642 = pytho.decode('utf-8')
+          print('+++++++++++++++++++++++++++++++++')
+          print(python642)
+          datos_div = python642.split()
+          # Procesar cada elemento en un bucle
+          i=0
+          for dato_div in datos_div:
+               # Realiza alguna acción con el elemento, por ejemplo, imprimirlo
+               variable = datos_div[i]
+               print('************************************************************')
+               print('cadena dividida: ',variable)
+               python6423 = 'data:image/jpg;base64,' + str(variable)
+               print('***********************')
+               print('uuuuuuuuuu',python6423)
+          
+        else:
+              python6423='no facial'
 
     title='detail'
     return render(request,"sistemabio/inquilinos/detail-inquilino.html",{
@@ -415,6 +421,8 @@ def facial(request, usuario_id):
                # new_facial.dato = combined_image_data
                new_facial.dato = image
                print(new_facial.dato)
+               new_facial.completado = True
+               print(new_facial.completado)
                new_facial.save()
 
               
@@ -459,6 +467,9 @@ def voz(request,usuario_id):
      # return render (request,'sistemabio/voz.html',{
      #      'mytitle':title
      # })
+
+
+
 
 
 
